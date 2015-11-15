@@ -1,0 +1,59 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>React Tutorial</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.2/react.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.2/react-dom.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  </head>
+  <body>
+    <div id="content"></div>
+    <!-- // <script type="text/babel" src="scripts/example.js"></script> -->
+    <script type="text/babel">
+      // To get started with this tutorial running your own code, simply remove
+      // the script tag loading scripts/example.js and start writing code here.
+      // tutorial1.js
+      var UserGist = React.createClass({
+        getInitialState: function() {
+          return {
+            username: '',
+            lastGistUrl: ''
+          };
+        },
+
+        componentDidMount: function() {
+          console.log('zhi xing');
+          console.log(this.props.source);
+          $.get(this.props.source, function(result) {
+            console.log(result);
+            var lastGist = result[2];
+            console.log(lastGist);
+            if (this.isMounted()) {
+              this.setState({
+                username: lastGist.name,
+                lastGistUrl: lastGist.age
+              });
+            }
+          }.bind(this));
+        },
+
+        render: function() {
+          return (
+            <div>
+              {this.state.username} s last gist is
+              <a href={this.state.lastGistUrl}>here</a>.
+            </div>
+          );
+        }
+      });
+
+      ReactDOM.render(
+        <UserGist source="http://localhost:8000/products" />,
+        document.getElementById('content')
+      );
+    </script>
+  </body>
+</html>

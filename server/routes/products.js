@@ -2,7 +2,8 @@ var express = require('express');
 var router = express.Router();
 var MongoClient = require('mongodb').MongoClient;
 var assert = require('assert');
-var url = 'mongodb://cuitianze:cuitianze@ds054308.mongolab.com:54308/products';
+// var url = 'mongodb://cuitianze:cuitianze@ds054308.mongolab.com:54308/products';
+var url = 'mongodb://localhost:27017/products';
 
 
 /* GET Products */
@@ -11,9 +12,9 @@ router.get('/', function(req, res, next) {
 		assert.equal(null, err);
 		console.log('数据库连接成功！');
 		db.collection('products').find({}).toArray(function(err, docs) {
-			assert.equal(null, err);
+			// assert.equal(null, err);
 			// assert.equal(2, docs.length);
-			res.json(docs);
+			res.send(docs);
 			db.close();
 		});
 	})

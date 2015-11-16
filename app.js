@@ -1,4 +1,6 @@
+// 加载 Express 模块
 var express = require('express');
+// 加载 path 模块
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
@@ -14,28 +16,39 @@ var url = "mongodb://tianze:tianze123@ds048487.mongolab.com:48487/mean-first-201
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
+var addArticle = require('./routes/addArticle');
 
 var app = express();
 
 // view engine setup
+// 设置文件夹为存放视图文件的目录
 app.set('views', path.join(__dirname, 'views'));
+// 设置视图模板引擎为 ejs
 app.set('view engine', 'ejs');
 
 // uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+// app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+
+// 开发环境下，终端显示简单的日志
 app.use(logger('dev'));
+// 解析请求体，支持application/json、application/x-www-form-urlencoded和multipart/form-dta
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+// app.use(bodyParser.multipart());
+
+
 app.use(cookieParser());
+// 根据目录下的public文件夹设置为存放image，css，js
 app.use(express.static(path.join(__dirname, 'public')));
 
 var doc = {
   "name": "微农云商",
   "address": "洛克时代大厦"
-}
+};
 
 app.use('/', routes);
 app.use('/users', users);
+app.use('/addArticle', addArticle);
 
 app.get('/article', function(req, res, next) {
   MongoClient.connect(url, function(err, db) {
